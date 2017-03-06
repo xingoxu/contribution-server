@@ -99,7 +99,7 @@ function getBangumiTimelineJSON(username) {
       let date = momentObj.format('YYYY-MM-DD');
       let count = dateObj[date];
       count = count ? count : 0;
-      json.data.shift({
+      json.data.unshift({
         count: count ? count : 0,
         date: date,
       });
