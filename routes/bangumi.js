@@ -61,7 +61,18 @@ function setDate($, body, dateObj) {
   let shouldStop = false;
   timeline.children('h4.Header').each(function (index) {
     let date = $(this).text();
-    date == '今天' ? date = moment().format('YYYY-MM-DD') : date = moment(date, 'YYYY-M-D').format('YYYY-MM-DD');
+    switch (date) {
+      case '今天':
+        date = moment().format('YYYY-MM-DD');
+        break;
+      case '昨天':
+        date = moment().subtract(1, 'days').format('YYYY-MM-DD');
+        break;
+      default:
+        date = moment(date, 'YYYY-M-D').format('YYYY-MM-DD');
+        break;
+    }
+
     if (moment().diff(moment(date), 'days') > 371) {
       shouldStop = true;
       return false;
