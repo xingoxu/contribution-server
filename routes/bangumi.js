@@ -121,17 +121,18 @@ function getBangumiTimeline(username) {
       })
 }
 
+let router = require('express').Router();
+let currentUser = 'xingo';
+getBangumiTimeline(currentUser);
+
 function clearCache() {
   setTimeout(() => {
     cache = {};
+    getBangumiTimeline(currentUser);
     clearCache();
   }, moment().endOf('day').toDate().valueOf() - Date.now());
 }
 clearCache();
-
-let router = require('express').Router();
-let currentUser = 'xingo';
-getBangumiTimeline(currentUser);
 router.get('/', function (req, res, next) {
   res.append('Access-Control-Allow-Origin', 'https://blog.xingoxu.com');
   if (cache[currentUser]) {

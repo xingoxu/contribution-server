@@ -59,17 +59,18 @@ function getGithubContribution(username) {
 }
 
 let moment = require('moment');
-function clearCache() {
-  setTimeout(() => {
-    cache = {};
-    clearCache();
-  }, moment().endOf('day').toDate().valueOf() - Date.now());
-}
-clearCache();
 
 let router = require('express').Router();
 let currentUser = 'xingoxu';
 getGithubContribution(currentUser);
+function clearCache() {
+  setTimeout(() => {
+    cache = {};
+    clearCache();
+    getGithubContribution(currentUser);
+  }, moment().endOf('day').toDate().valueOf() - Date.now());
+}
+clearCache();
 router.get('/', function (req, res, next) {
   res.append('Access-Control-Allow-Origin', 'https://blog.xingoxu.com');
   if (cache[currentUser]) {
