@@ -72,7 +72,7 @@ function clearCache() {
 }
 clearCache();
 router.get('/', function (req, res, next) {
-  res.append('Access-Control-Allow-Origin', 'https://blog.xingoxu.com');
+  res.append('Access-Control-Allow-Origin', '*');
   if (cache[currentUser]) {
     return res.json(cache[currentUser]);
   }

@@ -99,7 +99,7 @@ function getBangumiTimelineJSON(username) {
       let date = momentObj.format('YYYY-MM-DD');
       let count = dateObj[date];
       count = count ? count : 0;
-      json.data.push({
+      json.data.shift({
         count: count ? count : 0,
         date: date,
       });
@@ -134,7 +134,7 @@ function clearCache() {
 }
 clearCache();
 router.get('/', function (req, res, next) {
-  res.append('Access-Control-Allow-Origin', 'https://blog.xingoxu.com');
+  res.append('Access-Control-Allow-Origin', '*');
   if (cache[currentUser]) {
     return res.json(cache[currentUser]);
   }
