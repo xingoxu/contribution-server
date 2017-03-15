@@ -68,7 +68,7 @@ function clearCache() {
     cache = {};
     clearCache();
     getGithubContribution(currentUser);
-  }, moment().endOf('day').toDate().valueOf() - Date.now());
+  }, moment().endOf('day').add(8, 'hours').toDate().valueOf() - Date.now());
 }
 clearCache();
 router.get('/', function (req, res, next) {

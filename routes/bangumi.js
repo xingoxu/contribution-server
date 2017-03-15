@@ -132,14 +132,22 @@ function getBangumiTimeline(username) {
       })
 }
 
+function cycleTask(username) {
+  return getBangumiTimeline(username)
+      .catch(err => {
+        console.error(err);
+        return cycleTask(username);
+      })
+}
+
 let router = require('express').Router();
 let currentUser = 'xingo';
-getBangumiTimeline(currentUser);
+cycleTask(currentUser);
 
 function clearCache() {
   setTimeout(() => {
     cache = {};
-    getBangumiTimeline(currentUser);
+    cycleTask(currentUser);
     clearCache();
   }, moment().endOf('day').toDate().valueOf() - Date.now());
 }
@@ -155,6 +163,8 @@ router.get('/', function (req, res, next) {
           res.json(json);
         })
         .catch(err => {
+          console.error(err);
+          cycleTask(currentUser);
           return res.status(500).json({
             code: 500,
             message: 'something went wrong',
