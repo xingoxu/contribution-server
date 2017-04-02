@@ -77,7 +77,10 @@ function setDate($, body, dateObj) {
       shouldStop = true;
       return false;
     }
-    dateObj[date] = $(this).next().children('li').length;
+    if (dateObj[date])
+      dateObj[date] = dateObj[date] + $(this).next().children('li').length;
+    else
+      dateObj[date] = $(this).next().children('li').length;
   });
   return shouldStop;
 }
