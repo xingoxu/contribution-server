@@ -144,7 +144,7 @@ function cycleTask(username) {
 }
 
 let router = require('express').Router();
-let currentUser = 'xingo';
+let currentUser = process.env.bangumi_username;
 cycleTask(currentUser);
 
 function clearCache() {

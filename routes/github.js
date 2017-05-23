@@ -61,7 +61,7 @@ function getGithubContribution(username) {
 let moment = require('moment');
 
 let router = require('express').Router();
-let currentUser = 'xingoxu';
+let currentUser = process.env.github_username;
 getGithubContribution(currentUser);
 function clearCache() {
   setTimeout(() => {
