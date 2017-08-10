@@ -63,14 +63,14 @@ let moment = require('moment');
 let router = require('express').Router();
 let currentUser = process.env.github_username;
 getGithubContribution(currentUser);
-function clearCache() {
+function runCycleTask() {
   setTimeout(() => {
     cache = {};
-    clearCache();
     getGithubContribution(currentUser);
-  }, moment().endOf('day').add(8, 'hours').toDate().valueOf() - Date.now());
+    runCycleTask();
+  }, moment().endOf('day').add(8, 'hours').valueOf() - Date.now());
 }
-clearCache();
+runCycleTask();
 router.get('/', function (req, res, next) {
   res.append('Access-Control-Allow-Origin', '*');
   if (cache[currentUser]) {
