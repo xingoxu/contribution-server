@@ -5,10 +5,11 @@
 
 let router = require('express').Router();
 let allowCrossDomain = require('../utils/setCrossDomain.js');
-let { cache, taskMap } = require('../controller/bangumi-cache.js');
 let { currentUser } = require('../utils/environment.js');
+let bangumiCacheModule = require('../controller/bangumi-cache.js');
 
 router.get('/', allowCrossDomain, function (req, res, next) {
+  let { cache, taskMap } = bangumiCacheModule;
   if (cache[currentUser] && cache[currentUser].contribution) {
     return res.json(cache[currentUser].contribution);
   }
@@ -27,6 +28,7 @@ router.get('/', allowCrossDomain, function (req, res, next) {
 });
 
 router.get('/timeline', allowCrossDomain, function (req, res, next) {
+  let { cache, taskMap } = bangumiCacheModule;
   if (cache[currentUser] && cache[currentUser].timeline) {
     return res.json(cache[currentUser].timeline);
   }
