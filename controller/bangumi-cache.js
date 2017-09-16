@@ -88,9 +88,8 @@ function runCycleTask() {
     runAllCycleTaskFunc(currentUser);
     runCycleTask();
     exportModule.cache.time = moment().format('HH:mm:ss');
-  }, 10000);
+  }, moment().endOf('day').add(1, 'hours').valueOf() - Date.now());
 }
-// moment().endOf('day').add(1, 'hours').valueOf() - Date.now()
 
 runCycleTask();
 
