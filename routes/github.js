@@ -61,7 +61,7 @@ function getGithubContribution(username) {
 let moment = require('moment');
 
 let router = require('express').Router();
-let currentUser = process.env.github_username;
+let currentUser = process.env.github_username || 'xingoxu';
 getGithubContribution(currentUser);
 function runCycleTask() {
   setTimeout(() => {

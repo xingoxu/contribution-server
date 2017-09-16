@@ -2,7 +2,7 @@
  * Created by xingo on 2017/08/10 .
  */
 
-let cache = {}, errTimes = 0, MAX_ERR_TIMES = 10;
+let errTimes = 0, MAX_ERR_TIMES = 10;
 let { currentUser } = require('../utils/environment.js');
 let taskMap = {};
 let getTask = (func) => {
@@ -16,8 +16,8 @@ let getTask = (func) => {
 let { getBangumiTimelineJSON } = require('../controller/bangumi-contribution.js');
 function getBangumiContribution(username) {
   return getBangumiTimelineJSON(username).then(json => {
-    cache[username] || (cache[username] = {});
-    return cache[username].contribution = json;
+    exportModule.cache[username] || (exportModule.cache[username] = {});
+    return exportModule.cache[username].contribution = json;
   });
 }
 
@@ -27,8 +27,8 @@ taskMap.getBangumiContribution = getTask(getBangumiContribution);
 let { getRss: getBangumiRssJson } = require('../controller/bangumi-rss.js');
 function getBangumiRss(username) {
   return getBangumiRssJson(username).then(json => {
-    cache[username] || (cache[username] = {});
-    return cache[username].timeline = json;
+    exportModule.cache[username] || (exportModule.cache[username] = {});
+    return exportModule.cache[username].timeline = json;
   });
 }
 
@@ -84,15 +84,19 @@ runAllCycleTaskFunc(currentUser);
 let moment = require('moment');
 function runCycleTask() {
   setTimeout(() => {
-    cache = {};
+    exportModule.cache = {};
     runAllCycleTaskFunc(currentUser);
     runCycleTask();
-  }, moment().endOf('day').add(1, 'hours').valueOf() - Date.now());
+    exportModule.cache.time = moment().format('HH:mm:ss');
+  }, 10000);
 }
+// moment().endOf('day').add(1, 'hours').valueOf() - Date.now()
 
 runCycleTask();
 
-module.exports = {
-  cache,
+let exportModule = {
+  cache: {},
   taskMap
 };
+
+module.exports = exportModule;
