@@ -1,8 +1,8 @@
 let parser = require('rss-parser');
 let moment = require('moment');
 
-function parseTimeText(isoDate) {
-  let duration = moment.duration(Date.now() - moment(isoDate).valueOf());
+function parseTimeText(time) {
+  let duration = moment.duration(Date.now() - moment(time, 'YYYY-MM-DD HH:mm:ss').valueOf());
   let handler = ['years', 'months', 'days', 'hours', 'minutes', 'seconds'];
   let unitText = ['年', '月', '天', '小时', '分钟', '秒'];
   let timeText = '';
@@ -12,7 +12,7 @@ function parseTimeText(isoDate) {
       timeText = `${duration[handler[i]]()} ${unitText[i]}`;
       let secondTimeHanlder = handler[i + 1];
       if (secondTimeHanlder && duration[secondTimeHanlder]() > 0) {
-        timeText += ` ${duration[secondTimeHanlder]()} ${unitText[i+1]}`;
+        timeText += ` ${duration[secondTimeHanlder]()} ${unitText[i + 1]}`;
       }
       break;
     }
@@ -39,7 +39,6 @@ function getRss(username) {
       }) => {
         return {
           content: content.trim(),
-          timeText: parseTimeText(isoDate),
           time: moment(isoDate).format('YYYY-MM-DD HH:mm:ss')
         }
       });
@@ -53,6 +52,7 @@ function getRss(username) {
 }
 
 module.exports = {
-  getRss
+  getRss,
+  parseTimeText
 }
 
