@@ -1,7 +1,7 @@
 version: '2'
 services:
   contribution-server:
-    image: node:6
+    image: node:12-slim
     environment:
       bangumi_username: xingo
       github_username: xingoxu
